@@ -9,13 +9,15 @@ import { useEffect } from 'react';
 
 type FileManagerProps = {
   url: string;
+  view?: string; // TODO: Custom "views" type
 };
 
 const MOUNTABLE_EXTENSIONS = ['.iso', '.zip'];
 
-const FileManager = ({ url }: FileManagerProps): JSX.Element => {
+const FileManager = ({ url, view }: FileManagerProps): JSX.Element => {
   const { deleteFile, files, renameFile, updateFiles } = useFiles(url);
   const { mountFs, unMountFs } = useFileSystem();
+  // const { StyledFileEntry, StyledFileManager } = FileManagerViews[view];
 
   useEffect(() => {
     const isMountable = MOUNTABLE_EXTENSIONS.includes(extname(url));
