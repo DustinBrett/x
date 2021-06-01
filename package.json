@@ -33,6 +33,9 @@
     "*.{js,ts,tsx}": "eslint --fix",
     "*.ts": "stylelint --fix"
   },
+  "resolutions": {
+    "styled-components": "^5"
+  },
   "dependencies": {
     "browserfs": "https://github.com/jvilk/BrowserFS.git",
     "fflate": "^0.7.0",
@@ -60,7 +63,7 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jest-dom": "^3.9.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -73,7 +76,7 @@
     "jest": "^27.0.3",
     "jest-next-dynamic": "^1.0.1",
     "lint-staged": "^11.0.0",
-    "prettier": "2.3.0",
+    "prettier": "^2.3.0",
     "stylelint": "^13.13.1",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-sass-guidelines": "^8.0.0",
