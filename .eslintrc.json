@@ -54,6 +54,14 @@
         "ignoreRestSiblings": true
       }
     ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "import/no-cycle": "off",
     "import/prefer-default-export": "off",
     "jsx-a11y/click-events-have-key-events": "off",
