@@ -1,23 +1,24 @@
 import FileEntry from 'components/system/Files/FileEntry';
-import StyledFileEntry from 'components/system/Files/FileEntry/StyledFileEntry';
-import StyledFileManager from 'components/system/Files/FileManager/StyledFileManager';
 import useFileDrop from 'components/system/Files/FileManager/useFileDrop';
 import useFiles from 'components/system/Files/FileManager/useFiles';
+import type { FileManagerViewNames } from 'components/system/Files/Views';
+import FileManagerViews from 'components/system/Files/Views';
 import { useFileSystem } from 'contexts/fileSystem';
 import { basename, extname, resolve } from 'path';
 import { useEffect } from 'react';
 
 type FileManagerProps = {
   url: string;
-  view?: string; // TODO: Custom "views" type
+  view?: FileManagerViewNames;
 };
 
 const MOUNTABLE_EXTENSIONS = ['.iso', '.zip'];
 
-const FileManager = ({ url, view }: FileManagerProps): JSX.Element => {
+const FileManager = ({ url, view = 'icon' }: FileManagerProps): JSX.Element => {
   const { deleteFile, files, renameFile, updateFiles } = useFiles(url);
   const { mountFs, unMountFs } = useFileSystem();
-  // const { StyledFileEntry, StyledFileManager } = FileManagerViews[view];
+  const { StyledFileEntry, StyledFileManager } =
+    FileManagerViews[view] || FileManagerViews.icon;
 
   useEffect(() => {
     const isMountable = MOUNTABLE_EXTENSIONS.includes(extname(url));
