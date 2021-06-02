@@ -26,7 +26,7 @@ const StartMenu = (): JSX.Element => {
   // TODO: view="menu"
   return (
     <StyledStartMenu onBlur={maybeCloseMenu} tabIndex={-1} ref={menuRef}>
-      <FileManager url="/start" />
+      <FileManager url="/start" view="menu" />
     </StyledStartMenu>
   );
 };
