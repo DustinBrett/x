@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const StyledFileManager = styled.ol`
-  background-color: red;
+  padding-top: 7px;
 `;
 
 export default StyledFileManager;

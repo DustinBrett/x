@@ -15,6 +15,7 @@ type FileEntryProps = {
   name: string;
   path: string;
   renameFile: (path: string, name?: string) => void;
+  singleClick: boolean;
   view: FileManagerViewNames;
 };
 
@@ -23,6 +24,7 @@ const FileEntry = ({
   name,
   path,
   renameFile,
+  singleClick,
   view
 }: FileEntryProps): JSX.Element => {
   const { icon, pid, url } = useFileInfo(path);
@@ -35,7 +37,7 @@ const FileEntry = ({
 
   return (
     <Button
-      onClick={useDoubleClick(openFile)}
+      onClick={useDoubleClick(openFile, singleClick)}
       onContextMenu={contextMenu(menu)}
     >
       <figure>

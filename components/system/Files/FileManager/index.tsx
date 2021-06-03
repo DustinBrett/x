@@ -5,7 +5,7 @@ import type { FileManagerViewNames } from 'components/system/Files/Views';
 import { FileManagerViews } from 'components/system/Files/Views';
 import { useFileSystem } from 'contexts/fileSystem';
 import { basename, extname, resolve } from 'path';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 type FileManagerProps = {
   url: string;
@@ -18,6 +18,7 @@ const FileManager = ({ url, view }: FileManagerProps): JSX.Element => {
   const { deleteFile, files, renameFile, updateFiles } = useFiles(url);
   const { mountFs, unMountFs } = useFileSystem();
   const { StyledFileEntry, StyledFileManager } = FileManagerViews[view];
+  const singleClick = useMemo(() => view === 'list', [view]);
 
   useEffect(() => {
     const isMountable = MOUNTABLE_EXTENSIONS.includes(extname(url));
@@ -38,6 +39,7 @@ const FileManager = ({ url, view }: FileManagerProps): JSX.Element => {
             name={basename(file, extname(file))}
             path={resolve(url, file)}
             renameFile={renameFile}
+            singleClick={singleClick}
             view={view}
           />
         </StyledFileEntry>
