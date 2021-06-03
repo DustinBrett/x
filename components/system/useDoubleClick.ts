@@ -3,7 +3,7 @@ import { DOUBLE_CLICK_TIMEOUT_IN_MILLISECONDS } from 'utils/constants';
 
 type DoubleClick = (
   handler: React.MouseEventHandler,
-  singleClick: boolean,
+  singleClick?: boolean,
   timeout?: number
 ) => React.MouseEventHandler;
 
