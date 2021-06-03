@@ -3,23 +3,32 @@ import StyledIconFileManager from 'components/system/Files/Views/Icon/StyledFile
 import StyledMenuFileEntry from 'components/system/Files/Views/Menu/StyledFileEntry';
 import StyledMenuFileManager from 'components/system/Files/Views/Menu/StyledFileManager';
 import type { DefaultTheme, StyledComponent } from 'styled-components';
+import type { IconProps } from 'styles/common/Icon';
 
 type FileManagerView = {
   StyledFileEntry: StyledComponent<'li', DefaultTheme>;
   StyledFileManager: StyledComponent<'ol', DefaultTheme>;
 };
 
-export type FileManagerViewNames = 'icon' | 'menu'; // TODO: 'list' | 'menu'
+export type FileManagerViewNames = 'icon' | 'list';
 
-const FileManagerViews: Record<FileManagerViewNames, FileManagerView> = {
+export const FileManagerViews: Record<FileManagerViewNames, FileManagerView> = {
   icon: {
     StyledFileEntry: StyledIconFileEntry,
     StyledFileManager: StyledIconFileManager
   },
-  menu: {
+  list: {
     StyledFileEntry: StyledMenuFileEntry,
     StyledFileManager: StyledMenuFileManager
   }
 };
 
-export default FileManagerViews;
+export const FileEntryIconSize: { [view: string]: IconProps } = {
+  icon: {
+    imgSize: 48
+  },
+  list: {
+    displaySize: 24,
+    imgSize: 48 // TODO: Create 24x24 Icons
+  }
+};

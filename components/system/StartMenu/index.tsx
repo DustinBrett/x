@@ -23,10 +23,9 @@ const StartMenu = (): JSX.Element => {
 
   useEffect(() => menuRef.current?.focus(), []);
 
-  // TODO: view="menu"
   return (
     <StyledStartMenu onBlur={maybeCloseMenu} tabIndex={-1} ref={menuRef}>
-      <FileManager url="/start" view="menu" />
+      <FileManager url="/start" view="list" />
     </StyledStartMenu>
   );
 };
