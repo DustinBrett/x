@@ -10,7 +10,7 @@ import useWindowTransitions from 'components/system/Window/useWindowTransitions'
 import { useFileSystem } from 'contexts/fileSystem';
 import { useProcesses } from 'contexts/process';
 import { useSession } from 'contexts/session';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { loadFiles } from 'utils/functions';
 
 const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
@@ -25,10 +25,6 @@ const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
   const { foregroundId, prependToStack, setForegroundId, stackOrder } =
     useSession();
   const windowTransitions = useWindowTransitions(id, containerRef);
-  const zIndex = useMemo(
-    () => stackOrder.length + (minimized ? 1 : -stackOrder.indexOf(id)) + 1,
-    [id, minimized, stackOrder]
-  );
 
   useEffect(() => {
     if (fs) {
@@ -46,6 +42,9 @@ const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
 
   useEffect(() => {
     if (webampCI) {
+      const zIndex =
+        stackOrder.length + (minimized ? 1 : -stackOrder.indexOf(id)) + 1;
+
       if (
         foregroundId === id &&
         !containerRef?.current?.contains(document.activeElement)
@@ -56,7 +55,7 @@ const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
 
       setZIndex(webampCI, zIndex);
     }
-  }, [foregroundId, id, stackOrder, webampCI, zIndex]);
+  }, [foregroundId, id, minimized, stackOrder, webampCI]);
 
   return (
     <StyledWebamp

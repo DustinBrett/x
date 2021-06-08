@@ -21,31 +21,25 @@ const useFiles = (directory: string): Files => {
       ),
     [directory, fs]
   );
-  const deleteFile = useCallback(
-    (path: string) =>
-      fs?.unlink(path, () =>
-        setFiles((currentFiles) =>
-          currentFiles.filter((file) => file !== basename(path))
-        )
-      ),
-    [fs]
-  );
-  const renameFile = useCallback(
-    (path: string, name?: string) => {
-      if (name) {
-        const newPath = `${directory}/${name}${extname(path)}`;
+  const deleteFile = (path: string) =>
+    fs?.unlink(path, () =>
+      setFiles((currentFiles) =>
+        currentFiles.filter((file) => file !== basename(path))
+      )
+    );
+  const renameFile = (path: string, name?: string) => {
+    if (name) {
+      const newPath = `${directory}/${name}${extname(path)}`;
 
-        fs?.rename(path, newPath, () =>
-          setFiles((currentFiles) =>
-            currentFiles.map((file) =>
-              file.replace(basename(path), basename(newPath))
-            )
+      fs?.rename(path, newPath, () =>
+        setFiles((currentFiles) =>
+          currentFiles.map((file) =>
+            file.replace(basename(path), basename(newPath))
           )
-        );
-      }
-    },
-    [directory, fs]
-  );
+        )
+      );
+    }
+  };
 
   useEffect(updateFiles, [updateFiles]);
 
