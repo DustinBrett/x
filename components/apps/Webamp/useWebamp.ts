@@ -4,8 +4,7 @@ import {
   updateWebampPosition
 } from 'components/apps/Webamp/functions';
 import type { WebampCI, WebampOptions } from 'components/apps/Webamp/types';
-import { closeWithTransition } from 'components/system/Window/functions';
-import { useProcesses } from 'contexts/process';
+import useWindowActions from 'components/system/Window/Titlebar/useWindowActions';
 import { useSession } from 'contexts/session';
 import { useCallback, useState } from 'react';
 import { useTheme } from 'styled-components';
@@ -17,9 +16,8 @@ type Webamp = {
 };
 
 const useWebamp = (id: string): Webamp => {
-  const { close, minimize } = useProcesses();
+  const { onClose, onMinimize } = useWindowActions(id);
   const {
-    removeFromStack,
     setWindowStates,
     stackOrder,
     windowStates: { [id]: { position = undefined } = {} } = {}
@@ -71,7 +69,8 @@ const useWebamp = (id: string): Webamp => {
           const [main] = getWebampElement().getElementsByClassName('window');
           const { x, y } = main.getBoundingClientRect();
 
-          closeWithTransition(close, id);
+          onClose();
+
           setWindowStates((currentWindowStates) => ({
             ...currentWindowStates,
             [id]: {
@@ -79,15 +78,13 @@ const useWebamp = (id: string): Webamp => {
             }
           }));
 
-          removeFromStack(id);
-
           if (options.initialTracks) {
             const [{ url: objectUrl }] = options.initialTracks;
 
             cleanUpBufferUrl(objectUrl);
           }
         });
-        webamp.onMinimize(() => minimize(id));
+        webamp.onMinimize(() => onMinimize());
         webamp.renderWhenReady(containerElement).then(() => {
           closeEqualizer(webamp);
           updateWebampPosition(webamp, taskbarHeight, position);
@@ -98,11 +95,10 @@ const useWebamp = (id: string): Webamp => {
       }
     },
     [
-      close,
       id,
-      minimize,
+      onClose,
+      onMinimize,
       position,
-      removeFromStack,
       setWindowStates,
       stackOrder.length,
       taskbarHeight,
