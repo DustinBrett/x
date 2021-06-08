@@ -6,6 +6,7 @@ const StyledSidebar = styled.nav`
   justify-content: space-between;
 
   li {
+    border: 1px solid transparent;
     height: 48px;
     margin-right: 7px;
     width: 48px;
