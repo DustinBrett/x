@@ -5,15 +5,17 @@ import {
   SideMenu
 } from 'components/system/StartMenu/Sidebar/SidebarIcons';
 import StyledSidebar from 'components/system/StartMenu/Sidebar/StyledSidebar';
+import StyledSidebarButton from 'components/system/StartMenu/Sidebar/StyledSidebarButton';
 
 type SidebarButtonProps = {
+  active?: boolean;
   name: string;
   icon: JSX.Element;
 };
 
 const topButtons = [
   { name: 'START', icon: <SideMenu /> },
-  { name: 'All apps', icon: <AllApps /> }
+  { name: 'All apps', icon: <AllApps />, active: true }
 ];
 
 const bottomButtons = [
@@ -21,13 +23,13 @@ const bottomButtons = [
   { name: 'Power', icon: <Power /> }
 ];
 
-const SidebarButton = ({ name, icon }: SidebarButtonProps) => (
-  <li key={name}>
+const SidebarButton = ({ active, icon, name }: SidebarButtonProps) => (
+  <StyledSidebarButton key={name} active={active}>
     <figure>
       {icon}
       <figcaption>{name}</figcaption>
     </figure>
-  </li>
+  </StyledSidebarButton>
 );
 
 const Sidebar = (): JSX.Element => (
