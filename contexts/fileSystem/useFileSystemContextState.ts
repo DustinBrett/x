@@ -6,7 +6,7 @@ import type { BFSCallback } from 'browserfs/dist/node/core/file_system';
 import type { FSModule } from 'browserfs/dist/node/core/FS';
 import FileSystemConfig from 'contexts/fileSystem/FileSystemConfig';
 import { extname } from 'path';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export type FileSystemContextState = {
   fs: FSModule | null;
@@ -17,29 +17,23 @@ export type FileSystemContextState = {
 const useFileSystemContextState = (): FileSystemContextState => {
   const [fs, setFs] = useState<FSModule | null>(null);
   const rootFs = fs?.getRootFS() as MountableFileSystem;
-  const mountFs = useCallback(
-    (url: string, callback: () => void): void =>
-      fs?.readFile(url, (_readError, fileData = Buffer.from('')) => {
-        const isISO = extname(url) === '.iso';
-        const createFs: BFSCallback<IsoFS | ZipFS> = (_createError, newFs) => {
-          if (newFs) {
-            rootFs?.mount(url, newFs);
-            callback();
-          }
-        };
-
-        if (isISO) {
-          FileSystem.IsoFS.Create({ data: fileData }, createFs);
-        } else {
-          FileSystem.ZipFS.Create({ zipData: fileData }, createFs);
+  const mountFs = (url: string, callback: () => void): void =>
+    fs?.readFile(url, (_readError, fileData = Buffer.from('')) => {
+      const isISO = extname(url) === '.iso';
+      const createFs: BFSCallback<IsoFS | ZipFS> = (_createError, newFs) => {
+        if (newFs) {
+          rootFs?.mount(url, newFs);
+          callback();
         }
-      }),
-    [fs, rootFs]
-  );
-  const unMountFs = useCallback(
-    (url: string): void => rootFs?.umount(url),
-    [rootFs]
-  );
+      };
+
+      if (isISO) {
+        FileSystem.IsoFS.Create({ data: fileData }, createFs);
+      } else {
+        FileSystem.ZipFS.Create({ zipData: fileData }, createFs);
+      }
+    });
+  const unMountFs = (url: string): void => rootFs?.umount(url);
 
   useEffect(() => {
     if (!fs) {
