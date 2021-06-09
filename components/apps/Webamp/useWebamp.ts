@@ -65,9 +65,7 @@ const useWebamp = (id: string): Webamp => {
 
       const webamp: WebampCI = new window.Webamp(options);
 
-      webamp.onWillClose((cancel) => {
-        cancel();
-
+      webamp.onWillClose(() => {
         const [main] = getWebampElement().getElementsByClassName('window');
         const { x, y } = main.getBoundingClientRect();
 
