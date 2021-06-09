@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-// - 1px right padding before scrollbar
-
 const StyledStartMenu = styled.nav`
   backdrop-filter: blur(12px);
   background-color: hsla(0, 0%, 12%, 70%);
