@@ -40,7 +40,7 @@ const useFocusable = (
     if (isForeground) moveToFront();
   }, [isForeground, moveToFront]);
 
-  useEffect(moveToFront, [moveToFront]);
+  useEffect(() => setForegroundId(id), [id, setForegroundId]);
 
   return {
     onBlur,
