@@ -1,6 +1,6 @@
 import { useProcesses } from 'contexts/process';
 import { useSession } from 'contexts/session';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 
 type Focusable = {
   onBlur: React.FocusEventHandler;
@@ -20,7 +20,7 @@ const useFocusable = (
   } = useProcesses();
   const zIndex =
     stackOrder.length + (minimized ? 1 : -stackOrder.indexOf(id)) + 1;
-  const isForeground = useMemo(() => id === foregroundId, [foregroundId, id]);
+  const isForeground = id === foregroundId;
   const onBlur: React.FocusEventHandler = ({ relatedTarget }) => {
     if (isForeground && relatedTarget !== taskbarEntry) setForegroundId('');
   };

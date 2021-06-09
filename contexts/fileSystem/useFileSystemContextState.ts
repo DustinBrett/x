@@ -6,7 +6,7 @@ import type { BFSCallback } from 'browserfs/dist/node/core/file_system';
 import type { FSModule } from 'browserfs/dist/node/core/FS';
 import FileSystemConfig from 'contexts/fileSystem/FileSystemConfig';
 import { extname } from 'path';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export type FileSystemContextState = {
   fs: FSModule | null;
@@ -16,7 +16,7 @@ export type FileSystemContextState = {
 
 const useFileSystemContextState = (): FileSystemContextState => {
   const [fs, setFs] = useState<FSModule | null>(null);
-  const rootFs = useMemo(() => fs?.getRootFS() as MountableFileSystem, [fs]);
+  const rootFs = fs?.getRootFS() as MountableFileSystem;
   const mountFs = useCallback(
     (url: string, callback: () => void): void =>
       fs?.readFile(url, (_readError, fileData = Buffer.from('')) => {
