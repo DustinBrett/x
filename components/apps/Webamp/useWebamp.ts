@@ -37,7 +37,7 @@ const useWebamp = (id: string): Webamp => {
         __butterchurnOptions: {
           importButterchurn: () => Promise.resolve(window.butterchurn),
           getPresets: () => {
-            const presets = window.butterchurnPresets.getPresets();
+            const { default: presets } = window.minimalButterchurnPresets;
 
             return Object.keys(presets).map((name) => {
               return {

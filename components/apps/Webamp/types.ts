@@ -50,8 +50,8 @@ interface WebampConstructor {
 declare global {
   interface Window {
     butterchurn: unknown;
-    butterchurnPresets: {
-      getPresets: () => { [preset: string]: unknown };
+    minimalButterchurnPresets: {
+      default: { [preset: string]: unknown };
     };
     Webamp: WebampConstructor;
   }
