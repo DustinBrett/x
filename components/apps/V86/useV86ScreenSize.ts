@@ -4,7 +4,6 @@ import type {
   V86Starter
 } from 'components/apps/V86/types';
 import useWindowSize from 'components/system/Window/useWindowSize';
-import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'styled-components';
 import { pxToNum } from 'utils/functions';
@@ -16,7 +15,7 @@ const SET_SCREEN_TXT = 'screen-set-size-text';
 const useV86ScreenSize = (
   id: string,
   emulator: V86Starter | null
-): CSSProperties => {
+): React.CSSProperties => {
   const {
     sizes: {
       window: { lineHeight }
