@@ -17,22 +17,18 @@ const useSelection = (
 ): Selection => {
   const [position, setPosition] = useState<Position | null>(null);
   const [size, setSize] = useState<Size | null>(null);
+  const { x = 0, y = 0 } = position || {};
+  const { height = 0, width = 0 } = size || {};
   const onMouseMove: React.MouseEventHandler<HTMLElement> = ({
     pageX,
     pageY
-  }) =>
-    setSize({
-      width: pageX - (position?.x || 0),
-      height: pageY - (position?.y || 0)
-    });
+  }) => setSize({ width: pageX - x, height: pageY - y });
   const onMouseDown: React.MouseEventHandler<HTMLElement> = ({
     target,
-    pageX: x,
-    pageY: y
+    pageX,
+    pageY
   }) => {
-    if (target === containerRef?.current) {
-      setPosition({ x, y });
-    }
+    if (target === containerRef?.current) setPosition({ x: pageX, y: pageY });
   };
   const resetSelection = () => {
     setSize(null);
@@ -42,16 +38,10 @@ const useSelection = (
   return {
     selectionStyling: position
       ? {
-          height: `${Math.abs(Number(size?.height))}px`,
-          width: position && `${Math.abs(Number(size?.width))}px`,
-          left: `${
-            (position?.x || 0) +
-            (Number(size?.width) < 0 ? Number(size?.width) : 0)
-          }px`,
-          top: `${
-            (position?.y || 0) +
-            (Number(size?.height) < 0 ? Number(size?.height) : 0)
-          }px`
+          height: `${Math.abs(Number(height))}px`,
+          width: `${Math.abs(Number(width))}px`,
+          left: `${x + (Number(width) < 0 ? Number(width) : 0)}px`,
+          top: `${y + (Number(height) < 0 ? Number(height) : 0)}px`
         }
       : { display: 'none' },
     selectionEvents: {
