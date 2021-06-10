@@ -7,7 +7,8 @@ type Selection = {
   selectionEvents: {
     onMouseDown: React.MouseEventHandler<HTMLElement>;
     onMouseMove?: React.MouseEventHandler<HTMLElement>;
-    onMouseUp: () => void;
+    onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+    onMouseUp?: () => void;
   };
 };
 
@@ -33,6 +34,10 @@ const useSelection = (
       setPosition({ x, y });
     }
   };
+  const resetSelection = () => {
+    setSize(null);
+    setPosition(null);
+  };
 
   return {
     selectionStyling: position
@@ -52,10 +57,8 @@ const useSelection = (
     selectionEvents: {
       onMouseDown,
       onMouseMove: position ? onMouseMove : undefined,
-      onMouseUp: () => {
-        setSize(null);
-        setPosition(null);
-      }
+      onMouseLeave: position ? resetSelection : undefined,
+      onMouseUp: position ? resetSelection : undefined
     }
   };
 };
