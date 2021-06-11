@@ -23,7 +23,7 @@ const useSelection = (
   const onMouseMove: React.MouseEventHandler<HTMLElement> = ({
     pageX,
     pageY
-  }) => setSize({ width: pageX - x, height: pageY - y });
+  }) => setSize({ width: pageX - (x || 0), height: pageY - (y || 0) });
   const onMouseDown: React.MouseEventHandler<HTMLElement> = ({
     target,
     pageX,
