@@ -1,9 +1,10 @@
+import StyledSelection from 'components/system/Files/FileManager/Selection/StyledSelection';
 import type { Size } from 'components/system/Window/RndWindow/useResizable';
 import { useState } from 'react';
 import type { Position } from 'react-rnd';
 
 type Selection = {
-  selectionStyling: React.CSSProperties;
+  SelectionComponent?: React.ComponentType;
   selectionEvents: {
     onMouseDown: React.MouseEventHandler<HTMLElement>;
     onMouseMove?: React.MouseEventHandler<HTMLElement>;
@@ -17,8 +18,8 @@ const useSelection = (
 ): Selection => {
   const [position, setPosition] = useState<Position | null>(null);
   const [size, setSize] = useState<Size | null>(null);
-  const { x = 0, y = 0 } = position || {};
-  const { height = 0, width = 0 } = size || {};
+  const { x, y } = position || {};
+  const { height, width } = size || {};
   const onMouseMove: React.MouseEventHandler<HTMLElement> = ({
     pageX,
     pageY
@@ -34,16 +35,25 @@ const useSelection = (
     setSize(null);
     setPosition(null);
   };
+  const style =
+    typeof height === 'number' &&
+    typeof width === 'number' &&
+    typeof x === 'number' &&
+    typeof y === 'number'
+      ? {
+          height: `${Math.abs(height)}px`,
+          width: `${Math.abs(width)}px`,
+          transform: `translate(
+            ${x + (width < 0 ? width : 0)}px,
+            ${y + (height < 0 ? height : 0)}px)`
+        }
+      : undefined;
+  const SelectionComponent = (): JSX.Element => (
+    <StyledSelection style={style} />
+  );
 
   return {
-    selectionStyling: position
-      ? {
-          height: `${Math.abs(Number(height))}px`,
-          width: `${Math.abs(Number(width))}px`,
-          left: `${x + (Number(width) < 0 ? Number(width) : 0)}px`,
-          top: `${y + (Number(height) < 0 ? Number(height) : 0)}px`
-        }
-      : { display: 'none' },
+    SelectionComponent: style ? SelectionComponent : undefined,
     selectionEvents: {
       onMouseDown,
       onMouseMove: position ? onMouseMove : undefined,

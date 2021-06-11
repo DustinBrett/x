@@ -869,6 +869,13 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
+"@types/react-dom@^17.0.7":
+  version "17.0.7"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.7.tgz#b8ee15ead9e5d6c2c858b44949fdf2ebe5212232"
+  integrity sha512-Wd5xvZRlccOrCTej8jZkoFZuZRKHzanDDv1xglI33oBNFMWrqOSzrvWFw7ngSiZjrpJAzPKFtX7JvuXpkNmQHA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^17.0.11":
   version "17.0.11"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.11.tgz#67fcd0ddbf5a0b083a0f94e926c7d63f3b836451"

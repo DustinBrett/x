@@ -1,5 +1,4 @@
 import FileEntry from 'components/system/Files/FileEntry';
-import StyledSelection from 'components/system/Files/FileManager/Selection/StyledSelection';
 import useSelection from 'components/system/Files/FileManager/Selection/useSelection';
 import useFileDrop from 'components/system/Files/FileManager/useFileDrop';
 import useFiles from 'components/system/Files/FileManager/useFiles';
@@ -20,7 +19,7 @@ const FileManager = ({ url, view }: FileManagerProps): JSX.Element => {
   const { mountFs, unMountFs } = useFileSystem();
   const { StyledFileEntry, StyledFileManager } = FileManagerViews[view];
   const containerRef = useRef<HTMLOListElement | null>(null);
-  const { selectionStyling, selectionEvents } = useSelection(containerRef);
+  const { SelectionComponent, selectionEvents } = useSelection(containerRef);
 
   useEffect(() => {
     const isMountable = MOUNTABLE_EXTENSIONS.includes(extname(url));
@@ -34,12 +33,13 @@ const FileManager = ({ url, view }: FileManagerProps): JSX.Element => {
 
   return (
     <>
-      <StyledSelection style={selectionStyling} />
       <StyledFileManager
         ref={containerRef}
+        selecting={!!SelectionComponent}
         {...selectionEvents}
         {...useFileDrop(url, updateFiles)}
       >
+        {SelectionComponent && <SelectionComponent />}
         {files.map((file) => (
           <StyledFileEntry key={file}>
             <FileEntry
