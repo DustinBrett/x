@@ -15,6 +15,28 @@ const StyledPeakWindow = styled.div`
     padding: 8px;
     width: 100%;
   }
+
+  button {
+    background-color: rgb(40, 40, 40);
+    height: 32px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 32px;
+
+    svg {
+      fill: rgb(252, 246, 247);
+      width: 12px;
+    }
+
+    &:active {
+      background-color: rgb(139, 10, 20);
+    }
+
+    &:hover {
+      background-color: rgb(194, 22, 36);
+    }
+  }
 `;
 
 export default StyledPeakWindow;

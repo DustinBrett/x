@@ -1,27 +1,46 @@
 import StyledPeakWindow from 'components/system/Taskbar/TaskbarEntry/Peak/StyledPeakWindow';
+import useWindowActions from 'components/system/Window/Titlebar/useWindowActions';
+import { CloseIcon } from 'components/system/Window/Titlebar/WindowActionIcons';
 import { useProcesses } from 'contexts/process';
 import { toPng } from 'html-to-image';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Button from 'styles/common/Button';
 
 type WindowPeak = {
   PeakComponent?: React.ComponentType;
   peakEvents: {
-    onMouseEnter: () => void;
-    onMouseLeave: () => void;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
   };
 };
 
 const useWindowPeak = (id: string): WindowPeak => {
   const {
-    processes: { [id]: { componentWindow = undefined, title = '' } = {} }
+    processes: {
+      [id]: {
+        componentWindow = undefined,
+        minimized = false,
+        taskbarEntry = undefined,
+        title = ''
+      } = {}
+    }
   } = useProcesses();
   const mouseTimer = useRef<NodeJS.Timer | null>(null);
   const previewTimer = useRef<NodeJS.Timer | null>(null);
   const [showPeak, setShowPeak] = useState(false);
   const [previewSrc, setPreviewSrc] = useState('');
+  const { onClose } = useWindowActions(id);
   const PeakWindow = (): JSX.Element => (
-    <StyledPeakWindow>
+    <StyledPeakWindow
+      onFocus={({ target }) => {
+        if (target === taskbarEntry?.previousSibling) componentWindow?.focus();
+      }}
+      tabIndex={-1}
+    >
       <img alt={title} src={previewSrc} />
+      <Button onClick={onClose} title="Close">
+        <CloseIcon />
+      </Button>
     </StyledPeakWindow>
   );
   const onMouseEnter = () => {
@@ -49,14 +68,23 @@ const useWindowPeak = (id: string): WindowPeak => {
     setPreviewSrc('');
   }, []);
 
+  useEffect(() => {
+    if (minimized) {
+      setShowPeak(false);
+      setPreviewSrc('');
+    }
+  }, [minimized]);
+
   useEffect(() => onMouseLeave, [onMouseLeave]);
 
   return {
     PeakComponent: showPeak && previewSrc ? PeakWindow : undefined,
-    peakEvents: {
-      onMouseEnter,
-      onMouseLeave
-    }
+    peakEvents: minimized
+      ? {}
+      : {
+          onMouseEnter,
+          onMouseLeave
+        }
   };
 };
 
