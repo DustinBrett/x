@@ -14,6 +14,7 @@ const StyledTaskbarEntry = styled.li<StyledTaskbarEntryProps>`
   margin: ${({ foreground }) => (foreground ? '' : '0 4px')};
   min-width: 0;
   padding: ${({ foreground }) => (foreground ? '0 4px' : '')};
+  place-content: center;
   transition: all 0.075s;
   width: ${({ foreground, theme }) =>
     foreground
