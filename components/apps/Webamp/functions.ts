@@ -1,4 +1,4 @@
-import type { WebampCI } from 'components/apps/Webamp/types';
+import type { Track, WebampCI } from 'components/apps/Webamp/types';
 import { centerPosition } from 'components/system/Window/functions';
 import type { IAudioMetadata } from 'music-metadata-browser';
 import { parseBuffer } from 'music-metadata-browser';
