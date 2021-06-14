@@ -1,15 +1,12 @@
 import type { Position } from 'react-rnd';
 
 type WebampDispatchOptionalProps = {
-  absolute?: boolean;
   positions?: {
     main: Position;
-    milkdrop: Position;
     playlist: Position;
   };
   windowId?: string;
   window?: string;
-  zIndex?: number;
 };
 
 type WebampDispatch = WebampDispatchOptionalProps & {
@@ -17,6 +14,7 @@ type WebampDispatch = WebampDispatchOptionalProps & {
 };
 
 export type WebampCI = {
+  close: () => void;
   dispose: () => void;
   onWillClose: (cb: (cancel: () => void) => void) => () => void;
   onMinimize: (cb: () => void) => () => void;
@@ -26,21 +24,17 @@ export type WebampCI = {
   };
 };
 
-type Track = {
+export type Track = {
+  blob: Blob;
+  duration: number;
   metaData: {
     artist?: string;
     title: string;
   };
-  url: string;
 };
 
-export type WebampOptions = {
-  __butterchurnOptions: unknown;
-  initialSkin?: {
-    url: string;
-  };
+type WebampOptions = {
   initialTracks?: Track[];
-  zIndex?: number;
 };
 
 interface WebampConstructor {
@@ -49,10 +43,6 @@ interface WebampConstructor {
 
 declare global {
   interface Window {
-    butterchurn: unknown;
-    butterchurnPresets: {
-      getPresets: () => { [preset: string]: unknown };
-    };
     Webamp: WebampConstructor;
   }
 }

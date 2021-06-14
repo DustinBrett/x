@@ -29,8 +29,7 @@ export const updateWebampPosition = (
     type: 'UPDATE_WINDOW_POSITIONS',
     positions: {
       main: { x, y },
-      playlist: { x, y: height + y },
-      milkdrop: { x, y: height * 2 + y }
+      playlist: { x, y: height + y }
     }
   });
 };
