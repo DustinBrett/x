@@ -1,17 +1,15 @@
 import {
   closeEqualizer,
   getWebampElement,
+  parseTrack,
   updateWebampPosition
 } from 'components/apps/Webamp/functions';
-import type { Track, WebampCI } from 'components/apps/Webamp/types';
+import type { WebampCI, WebampOptions } from 'components/apps/Webamp/types';
 import useWindowActions from 'components/system/Window/Titlebar/useWindowActions';
 import { useSession } from 'contexts/session';
-import type { IAudioMetadata } from 'music-metadata-browser';
-import { parseBuffer } from 'music-metadata-browser';
 import { useState } from 'react';
 import { useTheme } from 'styled-components';
 import { WINDOW_TRANSITION_DURATION_IN_MILLISECONDS } from 'utils/constants';
-import { bufferToBlob } from 'utils/functions';
 
 type Webamp = {
   loadWebamp: (
@@ -40,8 +38,8 @@ const useWebamp = (id: string): Webamp => {
     file?: Buffer
   ): void => {
     if (containerElement && window.Webamp && !webampCI) {
-      const runWebamp = (initialTracks: Track[] = []) => {
-        const webamp: WebampCI = new window.Webamp({ initialTracks });
+      const runWebamp = (options?: WebampOptions) => {
+        const webamp: WebampCI = new window.Webamp(options);
         const subscriptions = [
           webamp.onWillClose((cancel) => {
             cancel();
@@ -75,18 +73,8 @@ const useWebamp = (id: string): Webamp => {
       };
 
       if (file) {
-        parseBuffer(file).then(
-          ({
-            common: { artist = '', title = fileName },
-            format: { duration = 0 }
-          }: IAudioMetadata) =>
-            runWebamp([
-              {
-                blob: bufferToBlob(file),
-                duration: Math.floor(duration),
-                metaData: { artist, title }
-              }
-            ])
+        parseTrack(file, fileName).then((track) =>
+          runWebamp({ initialTracks: [track] })
         );
       } else {
         runWebamp();

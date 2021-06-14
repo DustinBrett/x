@@ -1,4 +1,8 @@
-import { focusWindow, unFocus } from 'components/apps/Webamp/functions';
+import {
+  focusWindow,
+  parseTrack,
+  unFocus
+} from 'components/apps/Webamp/functions';
 import StyledWebamp from 'components/apps/Webamp/StyledWebamp';
 import useWebamp from 'components/apps/Webamp/useWebamp';
 import type { ComponentProcessProps } from 'components/system/Apps/RenderComponent';
@@ -7,7 +11,7 @@ import { useFileSystem } from 'contexts/fileSystem';
 import { useProcesses } from 'contexts/process';
 import { useSession } from 'contexts/session';
 import { basename } from 'path';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { loadFiles } from 'utils/functions';
 
 const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
@@ -18,6 +22,7 @@ const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
       [id]: { minimized = false, taskbarEntry = undefined, url = '' } = {}
     } = {}
   } = useProcesses();
+  const [currentUrl, setCurrentUrl] = useState(url);
   const { loadWebamp, webampCI } = useWebamp(id);
   const { foregroundId, prependToStack, setForegroundId, stackOrder } =
     useSession();
@@ -26,16 +31,25 @@ const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
     stackOrder.length + (minimized ? 1 : -stackOrder.indexOf(id)) + 1;
 
   useEffect(() => {
-    if (fs) {
-      fs?.readFile(url, (_error, contents) =>
-        loadFiles(['/libs/webamp/webamp.bundle.min.js']).then(() =>
-          loadWebamp(containerRef?.current, basename(url), contents)
-        )
-      );
-    }
+    fs?.readFile(url, (_error, contents) =>
+      loadFiles(['/libs/webamp/webamp.bundle.min.js']).then(() =>
+        loadWebamp(containerRef?.current, basename(url), contents)
+      )
+    );
   }, [containerRef, fs, loadWebamp, url]);
 
   useEffect(() => containerRef?.current?.focus(), []);
+
+  useEffect(() => {
+    if (url && url !== currentUrl && webampCI) {
+      fs?.readFile(url, (_error, contents = Buffer.from('')) =>
+        parseTrack(contents, basename(url)).then((track) => {
+          setCurrentUrl(url);
+          webampCI?.appendTracks([track]);
+        })
+      );
+    }
+  }, [currentUrl, fs, url, webampCI]);
 
   useEffect(() => {
     if (
