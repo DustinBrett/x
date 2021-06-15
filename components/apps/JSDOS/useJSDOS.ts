@@ -40,10 +40,7 @@ const useJSDOS = (
     if (!dos && fs && url) {
       fs.readFile(url, (_error, contents = Buffer.from('')) =>
         loadFiles(libs).then(async () => {
-          const isZip = extname(url).toLowerCase() === '.zip';
-          const objectURL = bufferToUrl(
-            isZip ? await addJsDosConfig(contents, fs) : contents
-          );
+          const objectURL = bufferToUrl(await addJsDosConfig(contents, fs));
 
           if (screenRef?.current) {
             window.emulators.pathPrefix = pathPrefix;
