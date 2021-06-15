@@ -14,6 +14,7 @@
     "build:fs": "cd public && node ../node_modules/browserfs/dist/scripts/make_http_index.js > .index/fs.bfs.json && node ../components/apps/V86/fs2json.js --exclude .index --out .index/fs.9p.json .",
     "export": "next export",
     "start": "next start",
+    "lint": "npm run eslint && npm run stylelint",
     "eslint": "eslint .",
     "stylelint": "stylelint **/*.ts",
     "prettier": "prettier --write .",
