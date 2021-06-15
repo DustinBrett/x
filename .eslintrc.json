@@ -9,6 +9,7 @@
     "airbnb",
     "airbnb/hooks",
     "eslint:recommended",
+    "next",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
