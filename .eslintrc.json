@@ -1,15 +1,8 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "jest": true,
-    "node": true
-  },
   "extends": [
     "airbnb",
     "airbnb/hooks",
     "eslint:recommended",
-    "next",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
@@ -19,20 +12,13 @@
     "plugin:react-hooks/recommended",
     "plugin:testing-library/react",
     "plugin:prettier/recommended",
-    "prettier"
+    "prettier",
+    "next",
+    "next/core-web-vitals",
+    "plugin:@next/next/recommended"
   ],
-  "globals": {
-    "React": "readonly"
-  },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 12,
-    "sourceType": "module"
-  },
   "plugins": [
+    "@next/next",
     "@typescript-eslint",
     "import",
     "jest",
@@ -44,10 +30,6 @@
     "testing-library"
   ],
   "rules": {
-    "@typescript-eslint/consistent-type-imports": [
-      "error",
-      { "prefer": "type-imports" }
-    ],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -64,22 +46,19 @@
       }
     ],
     "import/no-cycle": "off",
-    "import/prefer-default-export": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
     "react/jsx-props-no-spreading": "off",
-    "react/prop-types": "off",
     "react/require-default-props": "off",
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": "error"
   },
   "settings": {
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
-    },
     "import/resolver": {
-      "typescript": {}
+      "typescript": {
+        "project": "tsconfig.json"
+      }
     }
   }
 }

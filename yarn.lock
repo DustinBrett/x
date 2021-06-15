@@ -605,7 +605,7 @@
   resolved "https://registry.yarnpkg.com/@next/env/-/env-11.0.0.tgz#bdd306a45e88ba3e4e7a36aa91806f6486bb61d0"
   integrity sha512-VKpmDvTYeCpEQjREg3J4pCmVs/QjEzoLmkM8shGFK6e9AmFd0G9QXOL8HGA8qKhy/XmNb7dHeMqrcMiBua4OgA==
 
-"@next/eslint-plugin-next@11.0.0":
+"@next/eslint-plugin-next@11.0.0", "@next/eslint-plugin-next@^11.0.0":
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-11.0.0.tgz#e6fb93a00bdaba371904f2b2698b184e6278d369"
   integrity sha512-fPZ0904yY1box6bRpR9rJqIkNxJdvzzxH7doXS+cdjyBAdptMR7wj3mcx1hEikBHzWduU8BOXBvRg2hWc09YDQ==
