@@ -3,7 +3,18 @@ import { centerPosition } from 'components/system/Window/functions';
 import type { IAudioMetadata } from 'music-metadata-browser';
 import { parseBuffer } from 'music-metadata-browser';
 import type { Position } from 'react-rnd';
-import { bufferToBlob } from 'utils/functions';
+import { bufferToBlob, cleanUpBufferUrl } from 'utils/functions';
+
+export const BASE_WEBAMP_OPTIONS = {
+  availableSkins: [
+    { url: '/skins/Aqua_X.wsz', name: 'Aqua X' },
+    { url: '/skins/Nucleo_NLog_v102.wsz', name: 'Nucleo NLog v2G' },
+    {
+      url: '/skins/SpyAMP_Professional_Edition_v5.wsz',
+      name: 'SpyAMP Professional Edition v5'
+    }
+  ]
+};
 
 const BASE_WINDOW_SIZE = {
   height: 116,
@@ -36,6 +47,14 @@ export const updateWebampPosition = (
     }
   });
 };
+
+export const cleanBufferOnSkinLoad = (
+  webamp: WebampCI,
+  url = ''
+): Promise<void> =>
+  webamp.skinIsLoaded().then(() => {
+    if (url) cleanUpBufferUrl(url);
+  });
 
 export const focusWindow = (webamp: WebampCI, window: string): void =>
   webamp.store.dispatch({

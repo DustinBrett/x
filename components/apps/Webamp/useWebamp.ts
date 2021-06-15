@@ -1,4 +1,6 @@
 import {
+  BASE_WEBAMP_OPTIONS,
+  cleanBufferOnSkinLoad,
   closeEqualizer,
   getWebampElement,
   parseTrack,
@@ -7,14 +9,16 @@ import {
 import type { WebampCI, WebampOptions } from 'components/apps/Webamp/types';
 import useWindowActions from 'components/system/Window/Titlebar/useWindowActions';
 import { useSession } from 'contexts/session';
+import { basename } from 'path';
 import { useState } from 'react';
 import { useTheme } from 'styled-components';
 import { WINDOW_TRANSITION_DURATION_IN_MILLISECONDS } from 'utils/constants';
+import { bufferToUrl } from 'utils/functions';
 
 type Webamp = {
   loadWebamp: (
     containerElement: HTMLDivElement | null,
-    fileName: string,
+    url: string,
     file?: Buffer
   ) => void;
   webampCI: WebampCI | null;
@@ -34,12 +38,15 @@ const useWebamp = (id: string): Webamp => {
   const [webampCI, setWebampCI] = useState<WebampCI | null>(null);
   const loadWebamp = (
     containerElement: HTMLDivElement | null,
-    fileName: string,
+    url: string,
     file?: Buffer
   ): void => {
     if (containerElement && window.Webamp && !webampCI) {
       const runWebamp = (options?: WebampOptions) => {
-        const webamp: WebampCI = new window.Webamp(options);
+        const webamp: WebampCI = new window.Webamp({
+          ...BASE_WEBAMP_OPTIONS,
+          ...options
+        });
         const subscriptions = [
           webamp.onWillClose((cancel) => {
             cancel();
@@ -63,6 +70,10 @@ const useWebamp = (id: string): Webamp => {
           webamp.onMinimize(() => onMinimize())
         ];
 
+        if (options?.initialSkin?.url) {
+          cleanBufferOnSkinLoad(webamp, options.initialSkin.url);
+        }
+
         webamp.renderWhenReady(containerElement).then(() => {
           closeEqualizer(webamp);
           updateWebampPosition(webamp, taskbarHeight, position);
@@ -73,9 +84,13 @@ const useWebamp = (id: string): Webamp => {
       };
 
       if (file) {
-        parseTrack(file, fileName).then((track) =>
-          runWebamp({ initialTracks: [track] })
-        );
+        if (url.endsWith('.mp3')) {
+          parseTrack(file, basename(url)).then((track) =>
+            runWebamp({ initialTracks: [track] })
+          );
+        } else {
+          runWebamp({ initialSkin: { url: bufferToUrl(file) } });
+        }
       } else {
         runWebamp();
       }
