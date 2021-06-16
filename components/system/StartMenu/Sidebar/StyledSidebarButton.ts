@@ -43,7 +43,6 @@ const StyledSidebarButton = styled.li<StyledSidebarButtonProps>`
       left: ${({ theme }) =>
         `calc(${theme.sizes.startMenu.sidebarButtonWidth} + 1px)`};
       position: absolute;
-      visibility: hidden;
       white-space: nowrap;
     }
   }

@@ -12,6 +12,7 @@ type SidebarButtonProps = {
   heading?: boolean;
   icon: JSX.Element;
   name: string;
+  onClick?: () => void;
 };
 
 const topButtons = [
@@ -24,8 +25,19 @@ const bottomButtons = [
   { name: 'Power', icon: <Power /> }
 ];
 
-const SidebarButton = ({ active, icon, name, heading }: SidebarButtonProps) => (
-  <StyledSidebarButton key={name} active={active} heading={heading}>
+const SidebarButton = ({
+  active,
+  heading,
+  icon,
+  name,
+  onClick
+}: SidebarButtonProps) => (
+  <StyledSidebarButton
+    key={name}
+    active={active}
+    heading={heading}
+    onClick={onClick}
+  >
     <figure>
       {icon}
       <figcaption>{name}</figcaption>
