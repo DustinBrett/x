@@ -65,6 +65,10 @@ declare module 'styled-components' {
         iconSize: string;
         width: string;
       };
+      startMenu: {
+        componentPadding: string;
+        sidebarButtonWidth: string;
+      };
       taskbar: {
         blur: string;
         entry: {

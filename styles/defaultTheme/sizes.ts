@@ -17,6 +17,10 @@ const sizes = {
     iconSize: '19px',
     width: '36px'
   },
+  startMenu: {
+    componentPadding: '7px',
+    sidebarButtonWidth: '48px'
+  },
   taskbar: {
     blur: '5px',
     entry: {
