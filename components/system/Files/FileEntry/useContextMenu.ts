@@ -19,23 +19,26 @@ const useContextMenu = (
   ];
 
   if (pid) {
-    const openWithEntries = openWith.map((id) => {
-      const { icon, title: label } = processDirectory[id] || {};
-      const action = () => openFile(id);
+    menuItems.unshift({ separator: 1 });
 
-      return { icon, label, action };
+    if (openWith.length) {
+      menuItems.unshift({
+        label: 'Open with',
+        menu: openWith.map((id): MenuItem => {
+          const { icon, title: label } = processDirectory[id] || {};
+          const action = () => openFile(id);
+
+          return { icon, label, action };
+        })
+      });
+    }
+
+    menuItems.unshift({
+      icon: pidIcon,
+      label: 'Open',
+      primary: true,
+      action: () => openFile(pid)
     });
-
-    menuItems.unshift(
-      {
-        icon: pidIcon,
-        label: 'Open',
-        primary: true,
-        action: () => openFile(pid)
-      },
-      ...openWithEntries,
-      { separator: 1 }
-    );
   }
 
   return menuItems;

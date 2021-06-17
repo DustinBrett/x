@@ -4,6 +4,7 @@ export type MenuItem = {
   action?: () => void;
   icon?: string;
   label?: string;
+  menu?: MenuItem[];
   primary?: boolean;
   separator?: number;
 };

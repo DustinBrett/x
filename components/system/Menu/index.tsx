@@ -1,4 +1,4 @@
-import MenuItemEntry from 'components/system/Menu/MenuItemEntry';
+import MenuList from 'components/system/Menu/MenuList';
 import StyledMenu from 'components/system/Menu/StyledMenu';
 import { useMenu } from 'contexts/menu/index';
 import { useEffect, useRef } from 'react';
@@ -14,15 +14,7 @@ const Menu = (): JSX.Element => {
 
   return items ? (
     <StyledMenu onBlur={resetMenu} ref={menuRef} tabIndex={-1} x={x} y={y}>
-      <ol>
-        {items.map((item) => (
-          <MenuItemEntry
-            key={item.label || item.separator}
-            resetMenu={resetMenu}
-            {...item}
-          />
-        ))}
-      </ol>
+      <MenuList items={items} resetMenu={resetMenu} />
     </StyledMenu>
   ) : (
     <></>
