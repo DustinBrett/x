@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 type StyledMenuProps = {
+  subMenu: boolean;
   x: number;
   y: number;
 };
@@ -17,6 +18,7 @@ const StyledMenu = styled.nav<StyledMenuProps>`
   position: absolute;
   transform: ${({ x, y }) => `translate(${x}px, ${y}px);`};
   width: fit-content;
+  z-index: ${({ subMenu }) => subMenu && '1'};
 
   ol {
     hr {
@@ -38,6 +40,7 @@ const StyledMenu = styled.nav<StyledMenuProps>`
         margin-right: 64px;
         position: relative;
         top: -1px;
+        width: max-content;
 
         &.primary {
           font-weight: 600;

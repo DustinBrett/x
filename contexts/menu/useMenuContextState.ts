@@ -9,7 +9,7 @@ export type MenuItem = {
   separator?: number;
 };
 
-type MenuState = {
+export type MenuState = {
   items?: MenuItem[];
   x?: number;
   y?: number;
