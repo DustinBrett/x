@@ -2,6 +2,7 @@ import Menu from 'components/system/Menu';
 import type { MenuItem } from 'contexts/menu/useMenuContextState';
 import { useEffect, useRef, useState } from 'react';
 import { Position } from 'react-rnd';
+import { useTheme } from 'styled-components';
 import Icon from 'styles/common/Icon';
 
 type MenuItemEntryProps = MenuItem & {
@@ -20,6 +21,7 @@ const MenuItemEntry = ({
   const entryRef = useRef<HTMLLIElement | null>(null);
   const [subMenuOffset, setSubMenuOffset] = useState<Position>({ x: 0, y: 0 });
   const [showSubMenu, setShowSubMenu] = useState(false);
+  const { sizes } = useTheme();
   const onMouseEnter: React.MouseEventHandler = () => setShowSubMenu(true);
   const onMouseLeave: React.MouseEventHandler = ({ relatedTarget }) => {
     if (!entryRef?.current?.contains(relatedTarget as HTMLElement)) {
@@ -33,11 +35,11 @@ const MenuItemEntry = ({
       const { height, width } = entryRef?.current?.getBoundingClientRect();
 
       setSubMenuOffset({
-        x: width - 2,
-        y: -height - 3
+        x: width - sizes.contextMenu.subMenuOffset,
+        y: -height - sizes.contextMenu.subMenuOffset
       });
     }
-  }, []);
+  }, [sizes.contextMenu.subMenuOffset]);
 
   return (
     <li ref={entryRef}>

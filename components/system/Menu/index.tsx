@@ -11,8 +11,14 @@ type MenuProps = {
 const Menu = ({ subMenu }: MenuProps): JSX.Element => {
   const { menu: baseMenu = {}, setMenu } = useMenu();
   const { items, x = 0, y = 0 } = subMenu || baseMenu;
-  const resetMenu = () => setMenu({});
   const menuRef = useRef<HTMLElement | null>(null);
+  const resetMenu = ({
+    relatedTarget
+  }: Partial<FocusEvent | MouseEvent> = {}) => {
+    if (!menuRef.current?.contains(relatedTarget as HTMLElement)) {
+      setMenu({});
+    }
+  };
 
   useEffect(() => {
     if (items && !subMenu) menuRef?.current?.focus();
@@ -22,7 +28,7 @@ const Menu = ({ subMenu }: MenuProps): JSX.Element => {
     <StyledMenu
       onBlur={resetMenu}
       ref={menuRef}
-      subMenu={!!subMenu}
+      isSubMenu={!!subMenu}
       tabIndex={-1}
       x={x}
       y={y}
