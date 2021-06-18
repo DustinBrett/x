@@ -1,4 +1,5 @@
 import Menu from 'components/system/Menu';
+import { ChevronRight } from 'components/system/Menu/MenuIcons';
 import type { MenuItem } from 'contexts/menu/useMenuContextState';
 import { useEffect, useRef, useState } from 'react';
 import { Position } from 'react-rnd';
@@ -47,6 +48,7 @@ const MenuItemEntry = ({
         <hr />
       ) : (
         <figure
+          className={showSubMenu ? 'active' : ''}
           onClick={() => {
             action?.();
             resetMenu();
@@ -55,6 +57,7 @@ const MenuItemEntry = ({
         >
           {icon && <Icon src={icon} alt={label} imgSize={16} />}
           <figcaption className={primary ? 'primary' : ''}>{label}</figcaption>
+          {menu && <ChevronRight />}
         </figure>
       )}
       {menu && showSubMenu && (
