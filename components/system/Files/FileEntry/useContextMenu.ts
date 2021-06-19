@@ -22,9 +22,10 @@ const useContextMenu = (
   ];
 
   if (pid) {
+    const fileShortcut = isShortcut && url && url !== '/';
     menuItems.unshift({ separator: 1 });
 
-    if (isShortcut && url && url !== '/') {
+    if (fileShortcut) {
       menuItems.unshift({
         label: 'Open file location',
         action: () => open('FileExplorer', dirname(url))
@@ -42,7 +43,7 @@ const useContextMenu = (
     }
 
     menuItems.unshift({
-      icon: pidIcon,
+      icon: fileShortcut || (!isShortcut && extname(url)) ? pidIcon : undefined,
       label: 'Open',
       primary: true,
       action: () => openFile(pid)
