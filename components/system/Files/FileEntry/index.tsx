@@ -5,9 +5,11 @@ import useFileInfo from 'components/system/Files/FileEntry/useFileInfo';
 import { FileEntryIconSize } from 'components/system/Files/Views';
 import useDoubleClick from 'components/system/useDoubleClick';
 import { useMenu } from 'contexts/menu';
+import { extname } from 'path';
 import { useState } from 'react';
 import Button from 'styles/common/Button';
 import Icon from 'styles/common/Icon';
+import { SHORTCUT_EXTENSION } from 'utils/constants';
 
 type FileEntryProps = {
   deleteFile: (path: string) => void;
@@ -30,7 +32,8 @@ const FileEntry = ({
   const openFile = useFile(url);
   const deleteEntry = () => deleteFile(path);
   const renameEntry = () => setRenaming(true);
-  const menu = useContextMenu(url, pid, deleteEntry, renameEntry);
+  const isShortcut = extname(path) === SHORTCUT_EXTENSION;
+  const menu = useContextMenu(url, pid, isShortcut, deleteEntry, renameEntry);
   const singleClick = view === 'list';
 
   return (
