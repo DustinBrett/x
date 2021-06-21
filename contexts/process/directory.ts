@@ -1,7 +1,7 @@
 import type { Processes } from 'contexts/process/types';
 import dynamic from 'next/dynamic';
 
-const processDirectory: Processes = {
+const directory: Processes = {
   FileExplorer: {
     backgroundColor: '#202020',
     Component: dynamic(() => import('components/apps/FileExplorer')),
@@ -32,4 +32,4 @@ const processDirectory: Processes = {
   }
 };
 
-export default processDirectory;
+export default directory;

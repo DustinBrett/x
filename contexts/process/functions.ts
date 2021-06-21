@@ -1,4 +1,4 @@
-import processDirectory from 'contexts/process/directory';
+import directory from 'contexts/process/directory';
 import type {
   Process,
   ProcessElements,
@@ -38,7 +38,7 @@ export const createPid = (processId: string, url: string): string =>
 export const openProcess =
   (processId: string, url: string) =>
   (currentProcesses: Processes): Processes => {
-    const { singleton } = processDirectory[processId] || {};
+    const { singleton } = directory[processId] || {};
 
     if (singleton && Object.keys(currentProcesses).includes(processId)) {
       return setProcessSettings(processId, { url })(currentProcesses);
@@ -46,12 +46,12 @@ export const openProcess =
 
     const id = singleton ? processId : createPid(processId, url);
 
-    return currentProcesses[id] || !processDirectory[processId]
+    return currentProcesses[id] || !directory[processId]
       ? currentProcesses
       : {
           ...currentProcesses,
           [id]: {
-            ...processDirectory[processId],
+            ...directory[processId],
             url
           }
         };

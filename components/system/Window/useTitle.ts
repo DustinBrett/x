@@ -1,5 +1,5 @@
 import { useProcesses } from 'contexts/process';
-import processDirectory from 'contexts/process/directory';
+import directory from 'contexts/process/directory';
 import { basename } from 'path';
 import { useCallback } from 'react';
 import { PROCESS_DELIMITER } from 'utils/constants';
@@ -11,7 +11,7 @@ type Title = {
 const useTitle = (id: string): Title => {
   const { title } = useProcesses();
   const [pid] = id.split(PROCESS_DELIMITER) || [];
-  const { title: originalTitle } = processDirectory[pid] || {};
+  const { title: originalTitle } = directory[pid] || {};
   const appendFileToTitle = useCallback(
     (url: string) => title(id, `${originalTitle} - ${basename(url)}`),
     [id, originalTitle, title]

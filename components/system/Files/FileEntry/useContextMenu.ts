@@ -1,6 +1,6 @@
 import useFile from 'components/system/Files/FileEntry/useFile';
 import type { MenuItem } from 'contexts/menu/useMenuContextState';
-import processDirectory from 'contexts/process/directory';
+import directory from 'contexts/process/directory';
 
 const useContextMenu = (
   url: string,
@@ -8,7 +8,7 @@ const useContextMenu = (
   deleteFile: () => void,
   renameFile: () => void
 ): MenuItem[] => {
-  const { icon: pidIcon } = processDirectory[pid] || {};
+  const { icon: pidIcon } = directory[pid] || {};
   const openFile = useFile(url, pid);
   const menuItems: MenuItem[] = [
     { label: 'Delete', action: deleteFile },
