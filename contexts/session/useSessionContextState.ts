@@ -36,7 +36,7 @@ const useSessionContextState = (): SessionContextState => {
   const [themeName, setThemeName] = useState('');
   const [windowStates, setWindowStates] = useState<WindowStates>({});
   const [startMenuVisible, setStartMenuVisible] = useState(false);
-  const toggleStartMenu = (showMenu?: boolean) =>
+  const toggleStartMenu = (showMenu = false) =>
     setStartMenuVisible((currentMenuState) => showMenu ?? !currentMenuState);
   const prependToStack = useCallback(
     (id: string) =>

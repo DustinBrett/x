@@ -26,7 +26,7 @@ export type ProcessContextState = {
 const useProcessContextState = (): ProcessContextState => {
   const [processes, setProcesses] = useState<Processes>({});
   const close = useCallback(
-    (id: string, closing?: boolean) => setProcesses(closeProcess(id, closing)),
+    (id: string, closing = false) => setProcesses(closeProcess(id, closing)),
     []
   );
   const maximize = useCallback(

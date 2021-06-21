@@ -20,7 +20,7 @@ export const setProcessSettings =
   };
 
 export const closeProcess =
-  (processId: string, closing?: boolean) =>
+  (processId: string, closing = false) =>
   (currentProcesses: Processes): Processes => {
     if (closing) {
       return setProcessSettings(processId, { closing })(currentProcesses);
