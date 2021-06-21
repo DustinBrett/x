@@ -24,52 +24,52 @@ const useFileInfo = (path: string): FileInfo => {
   const { fs } = useFileSystem();
 
   useEffect(() => {
-    if (fs) {
-      const extension = extname(path).toLowerCase();
+    if (!fs) return;
 
-      if (!extension) {
-        fs.stat(path, (_error, stats) => {
-          const isDirectory = stats ? stats.isDirectory() : false;
+    const extension = extname(path).toLowerCase();
 
-          setInfo({
-            icon: `/icons/${isDirectory ? 'folder.png' : 'unknown.png'}`,
-            pid: isDirectory ? 'FileExplorer' : '',
-            url: path
-          });
+    if (!extension) {
+      fs.stat(path, (_error, stats) => {
+        const isDirectory = stats ? stats.isDirectory() : false;
+
+        setInfo({
+          icon: `/icons/${isDirectory ? 'folder.png' : 'unknown.png'}`,
+          pid: isDirectory ? 'FileExplorer' : '',
+          url: path
         });
+      });
+    } else {
+      const getInfoByFileExtension = (icon?: string) =>
+        setInfo({
+          icon: icon || getIconByFileExtension(extension),
+          pid: getProcessByFileExtension(extension),
+          url: path
+        });
+
+      if (extension === SHORTCUT_EXTENSION) {
+        fs.readFile(path, (error, contents = Buffer.from('')) => {
+          if (error) {
+            getInfoByFileExtension();
+          } else {
+            const {
+              InternetShortcut: {
+                BaseURL: pid = '',
+                IconFile: icon = '',
+                URL: url = ''
+              }
+            } = ini.parse(contents.toString());
+
+            setInfo({ icon, pid, url });
+          }
+        });
+      } else if (IMAGE_FILE_EXTENSIONS.includes(extension)) {
+        fs.readFile(path, (error, contents = Buffer.from('')) =>
+          getInfoByFileExtension(
+            error ? '/icons/photo.png' : bufferToUrl(contents)
+          )
+        );
       } else {
-        const getInfoByFileExtension = (icon?: string) =>
-          setInfo({
-            icon: icon || getIconByFileExtension(extension),
-            pid: getProcessByFileExtension(extension),
-            url: path
-          });
-
-        if (extension === SHORTCUT_EXTENSION) {
-          fs.readFile(path, (error, contents = Buffer.from('')) => {
-            if (error) {
-              getInfoByFileExtension();
-            } else {
-              const {
-                InternetShortcut: {
-                  BaseURL: pid = '',
-                  IconFile: icon = '',
-                  URL: url = ''
-                }
-              } = ini.parse(contents.toString());
-
-              setInfo({ icon, pid, url });
-            }
-          });
-        } else if (IMAGE_FILE_EXTENSIONS.includes(extension)) {
-          fs.readFile(path, (error, contents = Buffer.from('')) =>
-            getInfoByFileExtension(
-              error ? '/icons/photo.png' : bufferToUrl(contents)
-            )
-          );
-        } else {
-          getInfoByFileExtension();
-        }
+        getInfoByFileExtension();
       }
     }
   }, [fs, path]);
