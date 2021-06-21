@@ -43,9 +43,9 @@ const useFocusable = (
   useEffect(() => setForegroundId(id), [id, setForegroundId]);
 
   return {
-    onBlur,
     onFocus: moveToFront,
     tabIndex: -1,
+    onBlur,
     zIndex
   };
 };

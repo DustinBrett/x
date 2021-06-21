@@ -48,9 +48,9 @@ const useV86ScreenSize = (
 
   return {
     font: `${lineHeight} monospace`,
-    lineHeight,
     position: 'relative',
-    top: isGraphical ? '' : '2px' // Why + 2?
+    top: isGraphical ? '' : '2px', // Why + 2?
+    lineHeight
   };
 };
 

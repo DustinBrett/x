@@ -15,12 +15,12 @@ const StyledIcon = styled.img.attrs<IconProps>(
   ({ imgSize, displaySize, src = '' }) => ({
     draggable: false,
     height: `${displaySize || imgSize}px`,
-    onLoad,
     src:
       !src || src.startsWith('blob:')
         ? src
         : `${dirname(src)}/${imgSize}x${imgSize}/${basename(src)}`,
-    width: `${displaySize || imgSize}px`
+    width: `${displaySize || imgSize}px`,
+    onLoad
   })
 )<IconProps>`
   visibility: hidden;
