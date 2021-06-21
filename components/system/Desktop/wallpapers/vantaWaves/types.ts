@@ -1,11 +1,11 @@
 export type VantaWavesConfig = {
   color: number;
-  shininess: number;
+  shininess?: number;
   mouseControls?: boolean;
   touchControls?: boolean;
-  waveHeight: number;
-  waveSpeed: number;
-  zoom: number;
+  waveHeight?: number;
+  waveSpeed?: number;
+  zoom?: number;
 };
 
 type VantaWavesSettings = VantaWavesConfig & {
