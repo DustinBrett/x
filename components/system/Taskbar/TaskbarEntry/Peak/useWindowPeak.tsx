@@ -48,7 +48,7 @@ const useWindowPeak = (id: string): WindowPeak => {
         renderFrame();
         setShowPeak(true);
         previewTimer.current = setInterval(renderFrame, MILLISECONDS_IN_SECOND);
-      }, 250);
+      }, MILLISECONDS_IN_SECOND / 4);
     }
   };
   const onMouseLeave = useCallback(() => {
