@@ -1,4 +1,5 @@
 import {
+  cleanBufferOnSkinLoad,
   focusWindow,
   parseTrack,
   unFocus
@@ -12,7 +13,7 @@ import { useFileSystem } from 'contexts/fileSystem';
 import { useProcesses } from 'contexts/process';
 import { basename } from 'path';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { loadFiles } from 'utils/functions';
+import { bufferToUrl, loadFiles } from 'utils/functions';
 
 const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -47,10 +48,18 @@ const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
   useEffect(() => {
     if (url && url !== currentUrl && webampCI) {
       fs?.readFile(url, (_error, contents = Buffer.from('')) => {
-        parseTrack(contents, basename(url)).then((track) => {
+        if (url.endsWith('.mp3')) {
+          parseTrack(contents, basename(url)).then((track) => {
+            setCurrentUrl(url);
+            webampCI?.appendTracks([track]);
+          });
+        } else {
+          const bufferUrl = bufferToUrl(contents);
+
           setCurrentUrl(url);
-          webampCI?.appendTracks([track]);
-        });
+          cleanBufferOnSkinLoad(webampCI, bufferUrl);
+          webampCI?.setSkinFromUrl(bufferUrl);
+        }
       });
     }
   }, [currentUrl, fs, url, webampCI]);
