@@ -1,4 +1,8 @@
-import { focusWindow, unFocus } from 'components/apps/Webamp/functions';
+import {
+  focusWindow,
+  parseTrack,
+  unFocus
+} from 'components/apps/Webamp/functions';
 import StyledWebamp from 'components/apps/Webamp/StyledWebamp';
 import useWebamp from 'components/apps/Webamp/useWebamp';
 import type { ComponentProcessProps } from 'components/system/Apps/RenderComponent';
@@ -7,13 +11,14 @@ import useWindowTransitions from 'components/system/Window/useWindowTransitions'
 import { useFileSystem } from 'contexts/fileSystem';
 import { useProcesses } from 'contexts/process';
 import { basename } from 'path';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { loadFiles } from 'utils/functions';
 
 const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { fs } = useFileSystem();
   const { processes: { [id]: { url = '' } = {} } = {} } = useProcesses();
+  const [currentUrl, setCurrentUrl] = useState(url);
   const { loadWebamp, webampCI } = useWebamp(id);
   const windowTransitions = useWindowTransitions(id, containerRef);
   const focusEvents = useMemo(
@@ -38,6 +43,17 @@ const Webamp = ({ id }: ComponentProcessProps): JSX.Element => {
       });
     }
   }, [containerRef, fs, loadWebamp, url]);
+
+  useEffect(() => {
+    if (url && url !== currentUrl && webampCI) {
+      fs?.readFile(url, (_error, contents = Buffer.from('')) => {
+        parseTrack(contents, basename(url)).then((track) => {
+          setCurrentUrl(url);
+          webampCI?.appendTracks([track]);
+        });
+      });
+    }
+  }, [currentUrl, fs, url, webampCI]);
 
   return (
     <StyledWebamp
