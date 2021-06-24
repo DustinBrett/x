@@ -27,7 +27,6 @@ const useWebamp = (id: string): Webamp => {
   const { onClose, onMinimize } = useWindowActions(id);
   const {
     setWindowStates,
-    stackOrder,
     windowStates: { [id]: { position = undefined } = {} } = {}
   } = useSession();
   const {
@@ -47,9 +46,7 @@ const useWebamp = (id: string): Webamp => {
     file?: Buffer
   ): Promise<void> => {
     if (containerElement && window.Webamp && !webampCI) {
-      const options: WebampOptions = {
-        zIndex: stackOrder.length + 1
-      };
+      const options: WebampOptions = {};
 
       if (file) {
         const { common: { artist = '', title = fileName } = {} } =
