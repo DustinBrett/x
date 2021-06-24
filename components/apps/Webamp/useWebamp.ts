@@ -48,20 +48,6 @@ const useWebamp = (id: string): Webamp => {
   ): Promise<void> => {
     if (containerElement && window.Webamp && !webampCI) {
       const options: WebampOptions = {
-        __butterchurnOptions: {
-          importButterchurn: () => Promise.resolve(window.butterchurn),
-          getPresets: () => {
-            const presets = window.butterchurnPresets.getPresets();
-
-            return Object.keys(presets).map((name) => {
-              return {
-                name,
-                butterchurnPresetObject: presets[name]
-              };
-            });
-          },
-          butterchurnOpen: true
-        },
         zIndex: stackOrder.length + 1
       };
 
