@@ -4,6 +4,7 @@ import {
 } from 'components/system/Files/FileEntry/functions';
 import { useFileSystem } from 'contexts/fileSystem';
 import ini from 'ini';
+import { parseBuffer } from 'music-metadata-browser';
 import { extname } from 'path';
 import { useEffect, useState } from 'react';
 import { IMAGE_FILE_EXTENSIONS, SHORTCUT_EXTENSION } from 'utils/constants';
@@ -67,6 +68,16 @@ const useFileInfo = (path: string): FileInfo => {
               error ? '/icons/photo.png' : bufferToUrl(contents)
             )
           );
+        } else if (extension === '.mp3') {
+          fs.readFile(path, (error, contents = Buffer.from('')) => {
+            parseBuffer(contents).then((metaData) => {
+              const { common: { picture: [picture] = [] } = {} } = metaData;
+
+              getInfoByFileExtension(
+                picture ? bufferToUrl(picture.data) : '/icons/music.png'
+              );
+            });
+          });
         } else {
           getInfoByFileExtension();
         }
