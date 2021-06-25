@@ -17,11 +17,12 @@ const StyledTaskbarEntry = styled.li<StyledTaskbarEntryProps>`
     border-bottom: ${({ theme }) => `
         ${theme.sizes.taskbar.entry.borderSize} solid ${theme.colors.highlight}
       `};
+    bottom: 0;
     content: '';
-    height: 100%;
+    height: ${({ foreground }) => (foreground ? '100%' : 0)};
     margin: ${({ foreground }) => (foreground ? '' : '0 4px')};
     position: absolute;
-    transition: all 0.075s;
+    transition: ${({ foreground }) => (foreground ? 'all 0.2s' : 'width 0.1s')};
     width: ${({ foreground }) => (foreground ? '100%' : `calc(100% - 8px)`)};
     z-index: -1;
   }
@@ -32,6 +33,7 @@ const StyledTaskbarEntry = styled.li<StyledTaskbarEntryProps>`
         foreground
           ? theme.colors.taskbar.activeHover
           : theme.colors.taskbar.hover};
+      height: 100%;
       margin: 0;
       width: 100%;
     }
