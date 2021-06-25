@@ -5,10 +5,10 @@ type StyledTaskbarEntryProps = {
 };
 
 const StyledTaskbarEntry = styled.li<StyledTaskbarEntryProps>`
-  border-bottom: ${({ theme }) =>
-    `${theme.sizes.taskbar.entry.borderSize} solid transparent`};
   display: flex;
   min-width: 0;
+  place-content: center;
+  position: relative;
   width: ${({ theme }) => theme.sizes.taskbar.entry.maxWidth};
 
   &::before {
@@ -22,10 +22,7 @@ const StyledTaskbarEntry = styled.li<StyledTaskbarEntryProps>`
     margin: ${({ foreground }) => (foreground ? '' : '0 4px')};
     position: absolute;
     transition: all 0.075s;
-    width: ${({ foreground, theme }) =>
-      foreground
-        ? theme.sizes.taskbar.entry.maxWidth
-        : `calc(${theme.sizes.taskbar.entry.maxWidth} - 8px)`};
+    width: ${({ foreground }) => (foreground ? '100%' : `calc(100% - 8px)`)};
     z-index: -1;
   }
 
@@ -36,13 +33,14 @@ const StyledTaskbarEntry = styled.li<StyledTaskbarEntryProps>`
           ? theme.colors.taskbar.activeHover
           : theme.colors.taskbar.hover};
       margin: 0;
-      width: ${({ theme }) => theme.sizes.taskbar.entry.maxWidth};
+      width: 100%;
     }
   }
 
   figure {
     align-items: center;
     display: flex;
+    margin-bottom: ${({ theme }) => theme.sizes.taskbar.entry.borderSize};
     margin-left: 4px;
     padding: 4px;
 
