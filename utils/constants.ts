@@ -36,7 +36,7 @@ export const IMAGE_FILE_EXTENSIONS = [
   ".xbm",
 ];
 
-export const MILLISECONDS_IN_SECOND = 1000;
+export const MILLISECONDS_IN_SECOND = 1_000;
 
 export const MOUNTABLE_EXTENSIONS = [".iso", ".zip"];
 
