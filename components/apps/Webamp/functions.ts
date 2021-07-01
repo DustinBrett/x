@@ -5,6 +5,8 @@ import { parseBuffer } from "music-metadata-browser";
 import type { Position } from "react-rnd";
 import { bufferToBlob, cleanUpBufferUrl } from "utils/functions";
 
+export const MAIN_WINDOW = "#main-window";
+
 export const BASE_WEBAMP_OPTIONS = {
   availableSkins: [
     { url: "/skins/Aqua_X.wsz", name: "Aqua X" },

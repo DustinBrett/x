@@ -2,6 +2,7 @@ import type { ComponentProcessProps } from "components/system/Apps/RenderCompone
 
 export type ProcessElements = {
   componentWindow?: HTMLElement;
+  peekElement?: HTMLElement;
   taskbarEntry?: HTMLElement;
 };
 

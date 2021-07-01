@@ -17,10 +17,9 @@ type WindowPeek = {
 
 const useWindowPeek = (id: string): WindowPeek => {
   const {
-    processes: {
-      [id]: { componentWindow = undefined, minimized = false, title = "" } = {},
-    },
+    processes: { [id]: process },
   } = useProcesses();
+  const { peekElement, componentWindow, minimized, title } = process || {};
   const mouseTimer = useRef<NodeJS.Timer | null>(null);
   const previewTimer = useRef<NodeJS.Timer | null>(null);
   const [showPeek, setShowPeek] = useState(false);
@@ -35,9 +34,11 @@ const useWindowPeek = (id: string): WindowPeek => {
     </StyledPeekWindow>
   );
   const onMouseEnter = () => {
-    if (componentWindow) {
+    const previewElement = peekElement || componentWindow;
+
+    if (previewElement) {
       const renderFrame = () =>
-        toPng(componentWindow).then((dataUrl) => {
+        toPng(previewElement).then((dataUrl) => {
           const previewImage = new Image();
 
           previewImage.src = dataUrl;

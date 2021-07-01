@@ -14,7 +14,6 @@ type Focusable = Events & {
 
 const useFocusable = (
   id: string,
-  windowRef: React.MutableRefObject<HTMLElement | null>,
   callbackEvents?: Partial<Events>
 ): Focusable => {
   const { foregroundId, prependToStack, setForegroundId, stackOrder } =
@@ -22,7 +21,7 @@ const useFocusable = (
   const {
     processes: { [id]: process },
   } = useProcesses();
-  const { minimized, taskbarEntry, url } = process || {};
+  const { componentWindow, minimized, taskbarEntry, url } = process || {};
   const zIndex =
     stackOrder.length + (minimized ? 1 : -stackOrder.indexOf(id)) + 1;
   const isForeground = id === foregroundId;
@@ -37,21 +36,21 @@ const useFocusable = (
     (event?: React.FocusEvent<HTMLElement>) => {
       const { relatedTarget } = event || {};
 
-      if (windowRef.current?.contains(document.activeElement)) {
+      if (componentWindow?.contains(document.activeElement)) {
         prependToStack(id);
         setForegroundId(id);
       } else if (!relatedTarget || document.activeElement === taskbarEntry) {
-        windowRef.current?.focus();
+        componentWindow?.focus();
         callbackEvents?.onFocus?.(event);
       }
     },
     [
       callbackEvents,
+      componentWindow,
       id,
       prependToStack,
       setForegroundId,
       taskbarEntry,
-      windowRef,
     ]
   );
 
