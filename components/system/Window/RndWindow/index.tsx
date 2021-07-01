@@ -32,8 +32,10 @@ const RndWindow = ({ children, id, zIndex }: RndWindowProps): JSX.Element => {
 
   useEffect(() => {
     const { current: currentWindow } = rndRef || {};
-    const [windowContainer, resizeHandleContainer] =
+    const rndWindowElements =
       currentWindow?.resizableElement?.current?.children || [];
+    const [windowContainer, resizeHandleContainer] =
+      rndWindowElements as HTMLElement[];
     const resizeHandles = [...resizeHandleContainer?.children];
 
     resizeHandles.forEach(reRouteFocus(windowContainer));
