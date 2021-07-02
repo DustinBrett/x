@@ -7,6 +7,8 @@ import { MP3_MIME_TYPE } from "utils/constants";
 import { bufferToBlob, cleanUpBufferUrl } from "utils/functions";
 import type { Track } from "webamp";
 
+export const CONTAINER_WINDOW = "#webamp";
+
 export const MAIN_WINDOW = "#main-window";
 
 export const BASE_WEBAMP_OPTIONS = {
@@ -39,8 +41,8 @@ export const closeEqualizer = (webamp: WebampCI): void =>
     windowId: "equalizer",
   });
 
-export const getWebampElement = (): HTMLDivElement =>
-  document.getElementById("webamp") as HTMLDivElement;
+export const getWebampElement = (): HTMLDivElement | null =>
+  document.querySelector<HTMLDivElement>(CONTAINER_WINDOW);
 
 export const updateWebampPosition = (
   webamp: WebampCI,
