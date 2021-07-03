@@ -67,28 +67,26 @@ export const getInfoWithExtension = (
       getInfoByFileExtension(error ? "/icons/photo.png" : bufferToUrl(contents))
     );
   } else if (extension === ".mp3") {
-    fs.readFile(path, async (error, contents = Buffer.from("")) => {
-      const { parseBuffer, selectCover } = await import(
-        "music-metadata-browser"
-      );
+    fs.readFile(path, (error, contents = Buffer.from("")) =>
+      import("music-metadata-browser").then(({ parseBuffer, selectCover }) =>
+        parseBuffer(
+          contents,
+          {
+            mimeType: MP3_MIME_TYPE,
+            size: contents.length,
+          },
+          { skipPostHeaders: true }
+        ).then(({ common: { picture } = {} }) => {
+          const { data: coverPicture } = selectCover(picture) || {};
 
-      parseBuffer(
-        contents,
-        {
-          mimeType: MP3_MIME_TYPE,
-          size: contents.length,
-        },
-        { skipPostHeaders: true }
-      ).then(({ common: { picture } = {} }) => {
-        const { data: coverPicture } = selectCover(picture) || {};
-
-        getInfoByFileExtension(
-          !error && coverPicture
-            ? bufferToUrl(coverPicture)
-            : "/icons/music.png"
-        );
-      });
-    });
+          getInfoByFileExtension(
+            !error && coverPicture
+              ? bufferToUrl(coverPicture)
+              : "/icons/music.png"
+          );
+        })
+      )
+    );
   } else {
     getInfoByFileExtension();
   }
