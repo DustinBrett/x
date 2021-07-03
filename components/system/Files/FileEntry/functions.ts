@@ -2,7 +2,6 @@ import type { FSModule } from "browserfs/dist/node/core/FS";
 import extensions from "components/system/Files/FileEntry/extensions";
 import type { FileInfo } from "components/system/Files/FileEntry/useFileInfo";
 import ini from "ini";
-import { parseBuffer, selectCover } from "music-metadata-browser";
 import {
   IMAGE_FILE_EXTENSIONS,
   MP3_MIME_TYPE,
@@ -68,7 +67,11 @@ export const getInfoWithExtension = (
       getInfoByFileExtension(error ? "/icons/photo.png" : bufferToUrl(contents))
     );
   } else if (extension === ".mp3") {
-    fs.readFile(path, (error, contents = Buffer.from("")) =>
+    fs.readFile(path, async (error, contents = Buffer.from("")) => {
+      const { parseBuffer, selectCover } = await import(
+        "music-metadata-browser"
+      );
+
       parseBuffer(
         contents,
         {
@@ -84,8 +87,8 @@ export const getInfoWithExtension = (
             ? bufferToUrl(coverPicture)
             : "/icons/music.png"
         );
-      })
-    );
+      });
+    });
   } else {
     getInfoByFileExtension();
   }
