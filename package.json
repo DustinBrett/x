@@ -18,18 +18,14 @@
     "stylelint": "stylelint **/*.ts",
     "prettier": "prettier --write .",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepare": "husky install"
   },
   "browserslist": [
     "defaults and supports es6 and not ie 11"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*": "prettier --write",
+    "*": "prettier --ignore-unknown --write",
     "*.{js,ts,tsx}": "eslint --fix",
     "*.ts": "stylelint --fix"
   },
