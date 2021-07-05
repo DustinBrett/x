@@ -1,7 +1,11 @@
 import { memo, useEffect } from "react";
-import type { IconProps } from "styles/common/StyledIcon";
 import StyledIcon from "styles/common/StyledIcon";
 import { cleanUpBufferUrl } from "utils/functions";
+
+export type IconProps = {
+  displaySize?: number;
+  imgSize: number;
+};
 
 const Icon = (
   props: React.ImgHTMLAttributes<HTMLImageElement> & IconProps

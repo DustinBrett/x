@@ -1,10 +1,6 @@
 import { basename, dirname } from "path";
 import styled from "styled-components";
-
-export type IconProps = {
-  displaySize?: number;
-  imgSize: number;
-};
+import type { IconProps } from "styles/common/Icon";
 
 const onLoad: React.ReactEventHandler = ({ target }) =>
   (target as HTMLImageElement).style.setProperty("visibility", "visible");
