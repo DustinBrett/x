@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 const StyledV86 = styled.div`
+  canvas,
+  div {
+    transform-origin: top left;
+  }
+
   canvas {
     background-color: #000;
   }
