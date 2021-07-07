@@ -1,6 +1,6 @@
 type Extensions = {
   [extension: string]: {
-    icon: string;
+    icon?: string;
     process: string[];
   };
 };
@@ -22,8 +22,10 @@ const extensions: Extensions = {
     icon: "music",
     process: ["Webamp"],
   },
+  ".spl": {
+    process: ["Ruffle"],
+  },
   ".swf": {
-    icon: "unknown",
     process: ["Ruffle"],
   },
   ".wsz": {
