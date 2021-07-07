@@ -1,5 +1,6 @@
 type BaseLoadOptions = {
-  allowScriptAccess?: boolean;
+  backgroundColor?: string | null;
+  letterbox?: "on" | "off" | "fullscreen";
 };
 
 type Config = {
