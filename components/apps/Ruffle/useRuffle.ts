@@ -26,6 +26,7 @@ const useRuffle = (
         letterbox: "on",
         polyfills: false,
       };
+
       setPlayer(window.RufflePlayer?.newest()?.createPlayer());
     });
   }, []);
