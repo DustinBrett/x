@@ -4,6 +4,6 @@ import type { ComponentProcessProps } from "components/system/Apps/RenderCompone
 import ContainerComponent from "utils/ContainerComponent";
 
 const Ruffle = ({ id }: ComponentProcessProps): JSX.Element =>
-  ContainerComponent<HTMLDivElement>(id, useRuffle, StyledRuffle);
+  ContainerComponent(id, useRuffle, StyledRuffle);
 
 export default Ruffle;

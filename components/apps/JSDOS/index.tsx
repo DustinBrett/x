@@ -4,6 +4,6 @@ import type { ComponentProcessProps } from "components/system/Apps/RenderCompone
 import ContainerComponent from "utils/ContainerComponent";
 
 const JSDOS = ({ id }: ComponentProcessProps): JSX.Element =>
-  ContainerComponent<HTMLDivElement>(id, useJSDOS, StyledJSDOS);
+  ContainerComponent(id, useJSDOS, StyledJSDOS);
 
 export default JSDOS;
